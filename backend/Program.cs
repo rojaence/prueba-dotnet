@@ -1,0 +1,82 @@
+using Microsoft.EntityFrameworkCore;
+using backend.Contexts;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var pruebaDotnetCors = "_pruebaDotnetCors";
+
+builder.Services.AddCors(options => 
+  {
+    options.AddPolicy
+    (
+      name: pruebaDotnetCors,
+      policy => 
+      {
+        policy.WithOrigins("http://localhost:4200")
+           .AllowAnyMethod()
+            .AllowAnyHeader();
+      }
+    );
+  });
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<ConnSqlServer>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("connStringSqlServer")));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
+// JWT
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false; // Para desarrollo, desactiva si estás usando HTTPS
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+    };
+});
+
+builder.Services.AddAuthorization();
+
+
+var app = builder.Build();
+
+var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin1234", 13);
+Console.WriteLine("hash");
+Console.WriteLine(passwordHash);
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors(pruebaDotnetCors);
+app.UseHttpsRedirection();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

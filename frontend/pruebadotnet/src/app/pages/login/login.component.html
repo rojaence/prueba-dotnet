@@ -1,0 +1,12 @@
+<div class="form">
+  <h2 class="title">INICIO DE SESIÓN</h2>
+  <mat-form-field>
+    <mat-label>Nombre de usuario</mat-label>
+    <input matInput #input (input)="onUserNameInput($event)" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Contraseña</mat-label>
+    <input matInput #input (input)="onPasswordInput($event)" type="password"/>
+  </mat-form-field>
+  <button mat-flat-button (click)="onSubmit()">Iniciar sesión</button>
+</div>
