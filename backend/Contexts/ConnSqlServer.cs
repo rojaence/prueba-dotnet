@@ -11,6 +11,7 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
   public DbSet<Permission> Permissions { get; set; }
   public DbSet<RolePermission> RolePermissions { get; set; }
   public DbSet<RoleUser> RoleUsers { get; set; }
+  public DbSet<LoginAttempt> LoginAttempts { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
@@ -27,10 +28,15 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
         .HasKey(u => u.IdPermission);
 
     modelBuilder.Entity<RolePermission>()
+        .ToTable("Role_Permission")
         .HasNoKey();
 
     modelBuilder.Entity<RoleUser>()
+        .ToTable("Role_User")
         .HasNoKey();
+
+    modelBuilder.Entity<LoginAttempt>()
+    .HasKey(u => u.IdAttempt);
 }
 }
 

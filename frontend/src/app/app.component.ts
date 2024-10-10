@@ -1,27 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { LoginService } from './services/login.service';
+import { AppToolbarComponent } from './components/app-toolbar/app-toolbar.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatToolbarModule, MatButtonModule, CommonModule],
+  imports: [RouterOutlet, CommonModule, AppToolbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  title = 'pruebadotnet';
+  loginPage = signal(false)
 
   ngOnInit(): void {
-    this.navigateToLogin();
+    if (!this.loginService.getToken()) {
+      this.navigateToLogin();
+    } else {
+      this.navigateToHome();
+    }
+
+
+    this.router.events.subscribe(() => {
+      const currentRoute = this.router.url;
+      if (currentRoute === '/login') {
+        this.loginPage.set(true)
+      } else {
+        this.loginPage.set(false)
+      }
+    });
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   navigateToLogin() {
     this.router.navigate(['login']);
+  }
+
+  navigateToHome() {
+    this.router.navigate(['']);
   }
 }

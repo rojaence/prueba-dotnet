@@ -70,6 +70,12 @@ CREATE TABLE Role_User (
 )
 GO
 
+CREATE TABLE LoginAttempts (
+  IdAttempt INT PRIMARY KEY IDENTITY,
+  IdUser INT NOT NULL,
+  FOREIGN KEY (IdUser) REFERENCES Users(IdUser)
+)
+
 
 INSERT INTO Roles (RoleName) VALUES ('Admin'), ('User')
 GO

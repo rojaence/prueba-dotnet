@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Contexts;
 using backend.Models;
+using AutoMapper;
 
 namespace backend.Controllers;
 
@@ -10,10 +11,12 @@ namespace backend.Controllers;
 public class UsersController : ControllerBase
 {
   private readonly ConnSqlServer _context;
+  private readonly IMapper _mapper;
 
-  public UsersController(ConnSqlServer context)
+  public UsersController(ConnSqlServer context, IMapper mapper)
   {
     _context = context;
+    _mapper = mapper;
   }
 
   [HttpGet]
@@ -23,11 +26,12 @@ public class UsersController : ControllerBase
   }
 
   [HttpGet("{id}")]
-  public async Task<ActionResult<User>> GetUser(int id)
+  public async Task<ActionResult<UserDTO>> GetUser(int id)
   {
     var user = await _context.Users.FirstOrDefaultAsync(a => a.IdUser == id);
     if (user == null) return NotFound();
-    return user;
+    var userDTO = _mapper.Map<UserDTO>(user);
+    return userDTO;
   }
 
   [HttpPost]

@@ -1,12 +1,13 @@
-<div class="form">
+<form class="form" (submit)="onSubmit($event)">
   <h2 class="title">INICIO DE SESIÓN</h2>
   <mat-form-field>
     <mat-label>Nombre de usuario</mat-label>
-    <input matInput #input (input)="onUserNameInput($event)" />
+    <input matInput #input (input)="onUserNameInput($event)" [disabled]="logging()" required/>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Contraseña</mat-label>
-    <input matInput #input (input)="onPasswordInput($event)" type="password"/>
+    <input matInput #input (input)="onPasswordInput($event)" type="password" [disabled]="logging()" required/>
   </mat-form-field>
-  <button mat-flat-button (click)="onSubmit()">Iniciar sesión</button>
-</div>
+  <button mat-flat-button [disabled]="logging()">Iniciar sesión</button>
+</form>
+

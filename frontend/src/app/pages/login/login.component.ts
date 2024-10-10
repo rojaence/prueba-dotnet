@@ -1,9 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +13,16 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   protected readonly username = signal('');
   protected readonly password = signal('');
+  protected readonly logging = signal(false);
 
   constructor(private loginService: LoginService, private router: Router) {}
+
+  ngOnInit(): void {
+    if (this.loginService.getToken()) this.router.navigate(['']);
+  }
 
   protected onUserNameInput(event: Event) {
     this.username.set((event.target as HTMLInputElement).value);
@@ -26,17 +32,26 @@ export class LoginComponent {
     this.password.set((event.target as HTMLInputElement).value);
   }
 
-  protected onSubmit() {
+  protected onSubmit(event: SubmitEvent) {
+    event.preventDefault();
     let user = {
       password: this.password(),
       username: this.username()
     }
-    console.log(user)
-    this.loginService.login(user).subscribe(success => {
-      if (success) {
-        // this.router.navigate(['']);
-        alert('inicio exitoso')
-      }
+    this.logging.set(true);
+    this.loginService.login(user)
+    .pipe(
+      finalize(() => this.logging.set(false))
+    )
+    .subscribe({
+      next: (success) => {
+        if (success) {
+          this.router.navigate(['']);
+        }
+      },
+      error: (err) => {
+        alert(err)
+      },
     })
   }
 }

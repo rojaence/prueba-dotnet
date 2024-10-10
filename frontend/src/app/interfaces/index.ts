@@ -4,5 +4,5 @@ export interface IUserLoginDTO {
 }
 
 export interface ILoginSuccess {
-  token: string
+  token: string,
 }

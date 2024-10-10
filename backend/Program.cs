@@ -3,6 +3,8 @@ using backend.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper;
+using backend.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +35,8 @@ builder.Services.AddSwaggerGen();
 
 // JWT
 
+builder.Services.AddAuthorization();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,7 +58,14 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddAuthorization();
+// Mapper
+var mapperConfig = new MapperConfiguration(m => {
+  m.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddMvc();
 
 
 var app = builder.Build();
@@ -71,7 +82,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(pruebaDotnetCors);
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

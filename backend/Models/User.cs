@@ -75,3 +75,9 @@ public class LoginUserDTO
   [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
   public string? Username { get; set; }
 }
+
+public class LogoutUserDTO
+{
+  [Required(ErrorMessage = "El nombre de usuario es requerido")]
+  public string? Username { get; set; }
+}
