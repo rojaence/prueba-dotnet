@@ -12,6 +12,8 @@ Usuarios iniciales:
 
 Roles: Admin, User
 
+El script de base la base de datos se encuentra en la ruta:  backend/database
+
 ## Avances
 
 ### Primer avance
