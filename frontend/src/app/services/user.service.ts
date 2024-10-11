@@ -14,12 +14,11 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUserData(idUser: string): Observable<IUserDTO> {
-    return this.http.get<IUserDTO>(this.apiUrl + `/${idUser}`).pipe(
+    return this.http.get<IUserDTO>(this.apiUrl + `/${idUser}`, { withCredentials: true }).pipe(
       map(response => {
         return response;
       }),
       catchError((error: HttpErrorResponse) => throwError(() => new Error(error.message)))
     );
   }
-
 }

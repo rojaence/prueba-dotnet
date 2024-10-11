@@ -4,5 +4,10 @@ export interface IUserLoginDTO {
 }
 
 export interface ILoginSuccess {
-  token: string,
+  // token: string,
+  success: boolean
+}
+
+export interface IAuthenticated {
+  isAuthenticated: boolean
 }

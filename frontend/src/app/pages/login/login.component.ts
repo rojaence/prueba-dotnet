@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private router: Router) {}
 
   ngOnInit(): void {
-    if (this.loginService.getToken()) this.router.navigate(['']);
+
   }
 
   protected onUserNameInput(event: Event) {
@@ -46,6 +46,8 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (success) => {
         if (success) {
+          alert('inicio exitoso')
+          console.log
           this.router.navigate(['']);
         }
       },

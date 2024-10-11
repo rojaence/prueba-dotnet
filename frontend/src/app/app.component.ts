@@ -15,11 +15,15 @@ export class AppComponent implements OnInit {
   loginPage = signal(false)
 
   ngOnInit(): void {
-    if (!this.loginService.getToken()) {
-      this.navigateToLogin();
-    } else {
-      this.navigateToHome();
-    }
+   /* this.loginService.isAuthenticated().subscribe({
+    next: (res) => {
+      if (res.isAuthenticated) this.navigateToHome();
+      else this.navigateToLogin();
+    },
+    error: (err) => {
+      console.warn(err)
+    },
+   }) */
 
 
     this.router.events.subscribe(() => {

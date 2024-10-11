@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using backend.Contexts;
 using backend.Models;
 using AutoMapper;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers;
 

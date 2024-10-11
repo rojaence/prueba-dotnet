@@ -18,8 +18,9 @@ builder.Services.AddCors(options =>
       policy => 
       {
         policy.WithOrigins("http://localhost:4200")
-           .AllowAnyMethod()
-            .AllowAnyHeader();
+          .AllowAnyMethod()
+          .AllowAnyHeader()
+          .AllowCredentials();
       }
     );
   });
@@ -44,7 +45,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // Para desarrollo, desactiva si estás usando HTTPS
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -55,6 +56,14 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+    };
+    options.Events = new JwtBearerEvents
+    {
+      OnMessageReceived = context =>
+      {
+        context.Token = context.HttpContext.Request.Cookies["authToken"];
+        return Task.CompletedTask;
+      }
     };
 });
 

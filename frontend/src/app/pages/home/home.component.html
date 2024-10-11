@@ -1,11 +1,11 @@
 <section class="home">
   <div class="card-tile">
-    <p>Bienvenido {{ username | uppercase }}</p>
-    <p>Última sesión {{ lastSession }}</p>
+    <p>Bienvenido {{ userData?.username | uppercase }}</p>
+    <p>Última sesión {{ userData?.lastSession }}</p>
   </div>
 
   <div class="card-tile">
-    <p class="data"><span class="data__label">Rol de usuario:</span> {{ role }}</p>
+    <p class="data"><span class="data__label">Rol de usuario:</span> {{ userData?.role }}</p>
     <p class="data"><span class="data__label">Primer nombre:</span> {{ userData?.firstName }}</p>
     <p class="data"><span class="data__label">Segundo nombre:</span> {{ userData?.middleName }}</p>
     <p class="data"><span class="data__label">Primer apellido:</span> {{ userData?.firstLastname }}</p>

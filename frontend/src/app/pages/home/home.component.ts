@@ -13,20 +13,12 @@ import { UserService } from '../../services/user.service';
 })
 export class HomeComponent implements OnInit {
   title = 'PruebaDotnet';
-  username: string | null = '';
-  lastSession: string = '';
-  role: string = '';
-
   userData?: IUserDTO;
 
   constructor(private loginService: LoginService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.username = this.loginService.getUsername();
-    this.lastSession = this.loginService.getLastSession()!;
-    this.role = this.loginService.getRole()!;
-
-    this.userService.getUserData(this.loginService.getId()!).subscribe({
+    this.loginService.getUserData().subscribe({
       next: (value) => {
         this.userData = value;
       },

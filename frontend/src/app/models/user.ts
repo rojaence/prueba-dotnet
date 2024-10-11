@@ -14,4 +14,6 @@ export interface IUserDTO {
   secondLastname: string;
   idCard:         string;
   birthDate:      Date | string;
+  role:           string;
+  lastSession:    Date | string;
 }
