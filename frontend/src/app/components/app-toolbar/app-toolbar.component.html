@@ -1,7 +1,16 @@
 <mat-toolbar class="toolbar">
   <h1>{{ title | uppercase }}</h1>
   <div class="menu">
-
+    <nav class="main-nav">
+      <ul class="main-nav__list">
+        <li class="main-nav__item">
+          <a [routerLink]="['/']" class="main-nav__link">Inicio</a>
+        </li>
+        <li class="main-nav__item">
+          <a [routerLink]="['/profile']" class="main-nav__link">Perfil</a>
+        </li>
+      </ul>
+    </nav>
   </div>
   <button mat-flat-button color="warn" (click)="logout()">Cerrar sesión</button>
 </mat-toolbar>

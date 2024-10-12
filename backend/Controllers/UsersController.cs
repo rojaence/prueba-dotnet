@@ -5,9 +5,11 @@ using backend.Models;
 using AutoMapper;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.IO.Compression;
 
 namespace backend.Controllers;
 
+[Authorize]
 [Route("api/users")]
 [ApiController]
 public class UsersController : ControllerBase
@@ -44,7 +46,10 @@ public class UsersController : ControllerBase
 
     // COMPROBAR USERNAME
     var isDuplicated = await IsUsernameDuplicated(newUser.Username!);
-    if (isDuplicated) return BadRequest("El nombre de usuario ya existe");
+    if (isDuplicated) return BadRequest(new { errors = "El nombre de usuario ya existe"});
+
+    var isDuplicatedIdCard = await IsIdCardDuplicated(newUser.IdCard!);
+    if (isDuplicated) return BadRequest(new { errors = "La identificación de usuario ya existe"});
 
     // GENERAR EMAIL ÚNICO
     var email = await GenerateEmail(newUser);
@@ -81,6 +86,48 @@ public class UsersController : ControllerBase
     return CreatedAtAction(nameof(GetUser), new { id = user.IdUser }, user);
   }
 
+  [HttpPut("{id}")]
+  public async Task<IActionResult> UpdateUserProfile(int id, [FromBody] UpdateUserDTO userData)
+  {
+    if (!ModelState.IsValid) return BadRequest(ModelState);
+    // COMPROBAR USERNAME
+    var user = await _context.Users.FirstOrDefaultAsync(u => u.IdUser == id);
+    if (user == null) return BadRequest(new { errors = "El usuario no existe"});
+    if (userData.Username != user.Username)  {
+      var isDuplicated = await IsUsernameDuplicated(userData.Username!);
+      if (isDuplicated) return BadRequest(new { errors = "El nombre de usuario ya existe"});
+    }
+    if (userData.IdCard != user.IdCard) {
+      var isDuplicatedIdCard = await IsIdCardDuplicated(userData.IdCard!);
+      if (isDuplicatedIdCard) return BadRequest(new { errors = "La identificación de usuario ya existe"});
+    }
+    user.FirstName = userData.FirstName;
+    user.MiddleName = userData.MiddleName;
+    user.FirstLastname = userData.FirstLastname;
+    user.SecondLastname = userData.SecondLastname;
+    user.IdCard = userData.IdCard;
+    user.Username = userData.Username;
+    user.BirthDate = userData.BirthDate;
+    await _context.SaveChangesAsync();
+    return Ok(new { success = true });
+  }
+
+  [HttpGet("/{id}/permissions")]
+  public async Task<ActionResult<IEnumerable<PermissionDTO>>> GetPermissions(int id)
+  {
+    var permissions = await _context.Users
+    .Where(u => u.IdUser == id)
+    .SelectMany(u => u.RoleUsers)
+    .SelectMany(ru => ru.Role.RolePermissions)
+    .Select(rp => rp.Permission)
+    .Distinct()
+    .ToListAsync();
+    
+    // return permissions;
+    return _mapper.Map<List<PermissionDTO>>(permissions);
+  }
+
+
   [ApiExplorerSettings(IgnoreApi = true)]
   public async Task<string> GenerateEmail(CreateUserDTO newUser) 
   {
@@ -111,5 +158,11 @@ public class UsersController : ControllerBase
         var isDuplicated = await _context.Users.AnyAsync(u => u.Username == username);
         return isDuplicated;
     }
+
+  protected async Task<bool> IsIdCardDuplicated(string idCard)
+  {
+      var isDuplicated = await _context.Users.AnyAsync(u => u.IdCard == idCard);
+      return isDuplicated;
+  }
 }
 

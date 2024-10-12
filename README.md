@@ -41,3 +41,10 @@ Avances:
 * Añadido: Funciones de login, logout en LoginController
 * Añadido: Servicios de Login, User y guards para las rutas en frontend
 * Añadido: Mostrar información de usuario en la página inicial (home)
+
+
+## TERCER AVANCE
+
+Avances
+* Añadido: gestión de JWT con uso de cookies
+* Añadido: actualización de perfil de usario

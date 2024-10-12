@@ -1,0 +1,81 @@
+<p>Datos del usuario</p>
+<form action="#" class="form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+  <div class="form-area">
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['username'].invalid}">
+      <mat-label>Nombre de usuario</mat-label>
+      <input matInput required formControlName="username">
+      @if (f['username'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('username') }}
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['firstName'].invalid}">
+      <mat-label>Primer nombre</mat-label>
+      <input matInput required formControlName="firstName">
+      @if (f['firstName'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('firstName') }}
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['middleName'].invalid}">
+      <mat-label>Segundo nombre</mat-label>
+      <input matInput required formControlName="middleName">
+      @if (f['middleName'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('middleName') }}
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['firstLastname'].invalid}">
+      <mat-label>Primer apellido</mat-label>
+      <input matInput required formControlName="firstLastname">
+      @if (f['firstLastname'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('firstLastname') }}
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['secondLastname'].invalid}">
+      <mat-label>Segundo apellido</mat-label>
+      <input matInput required formControlName="secondLastname">
+      @if (f['secondLastname'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('secondLastname') }}
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="form-area">
+    <mat-form-field appearance="outline">
+      <mat-label>Correo</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['idCard'].invalid}">
+      <mat-label>Identificación</mat-label>
+      <input matInput formControlName="" formControlName="idCard">
+      @if (f['idCard'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('idCard') }}
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['birthDate'].invalid}">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (f['birthDate'].invalid) {
+        <mat-error>
+          {{ getErrorMessage('birthDate') }}
+        </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="actions">
+    <button mat-flat-button>Guardar</button>
+  </div>
+</form>

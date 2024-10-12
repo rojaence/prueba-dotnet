@@ -77,8 +77,9 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
     }
 
     var name = claimsPrincipal.FindFirst("name")?.Value;
+    var id = claimsPrincipal.FindFirst("id")?.Value;
 
-    var userExist = await _context.Users.AnyAsync(u => u.Username == name);
+    var userExist = await _context.Users.AnyAsync(u => u.IdUser == int.Parse(id));
     if (!userExist) return BadRequest("Usuario no existe");
     if (Request.Cookies["authToken"] != null)
     {
@@ -93,7 +94,7 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
 
         Response.Cookies.Append("authToken", "", cookieOptions);
     }
-    var user = await _context.Users.FirstAsync(u => u.Username == name);
+    var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(id));
     var lastSession = await _context.Sessions
           .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
           .OrderByDescending(s => s.StartDate)
@@ -119,7 +120,7 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
     var date = User.FindFirstValue("date");
     var username = User.FindFirstValue("name");
     if (userId == null) return Unauthorized();
-    var user = await _context.Users.FirstAsync(u => u.Username == username);
+    var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(userId));
     if (user == null) return NotFound();
     var userRoleId = await _context.RoleUsers
               .Where(ru => ru.IdUser == user.IdUser)

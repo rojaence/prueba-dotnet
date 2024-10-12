@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { IUserDTO } from '../models/user';
+import { IUpdateUserDTO, IUserDTO } from '../models/user';
 import { environment } from '../../environments/environment.development';
 
 @Injectable({
@@ -19,6 +19,20 @@ export class UserService {
         return response;
       }),
       catchError((error: HttpErrorResponse) => throwError(() => new Error(error.message)))
+    );
+  }
+
+  updateUserData(idUser: number, data: IUpdateUserDTO): Observable<{ success: boolean }> {
+    return this.http.put<{ success: boolean }>(this.apiUrl + `/${idUser}`, { ...data }, {withCredentials: true})
+    .pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => throwError(() => {
+        console.error('error al actualizar usuario', error)
+        console.log(error.error.errors)
+        return new Error(error.error)
+      }))
     );
   }
 }

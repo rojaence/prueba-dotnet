@@ -57,6 +57,7 @@ GO
 CREATE TABLE Role_Permission (
     IdRole INT NOT NULL,
     IdPermission INT NOT NULL,
+    PRIMARY KEY (IdRole, IdPermission),
     FOREIGN KEY (IdRole) REFERENCES Roles(IdRole),
     FOREIGN KEY (IdPermission) REFERENCES Permissions(IdPermission)
 )
@@ -65,6 +66,7 @@ GO
 CREATE TABLE Role_User (
     IdRole INT NOT NULL,
     IdUser INT NOT NULL,
+    PRIMARY KEY (IdRole, IdUser),
     FOREIGN KEY (IdRole) REFERENCES Roles(IdRole),
     FOREIGN KEY (IdUser) REFERENCES Users(IdUser)
 )

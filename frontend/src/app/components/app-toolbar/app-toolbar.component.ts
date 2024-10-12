@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginService } from '../../services/login.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-toolbar',
   standalone: true,
-  imports: [MatToolbarModule, CommonModule, MatButtonModule],
+  imports: [MatToolbarModule, CommonModule, MatButtonModule, RouterModule],
   templateUrl: './app-toolbar.component.html',
   styleUrl: './app-toolbar.component.scss'
 })

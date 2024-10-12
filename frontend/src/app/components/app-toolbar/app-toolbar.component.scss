@@ -6,3 +6,18 @@
 .menu {
   margin-left: auto;
 }
+
+.main-nav {
+  &__list {
+    display: flex;
+    list-style: none;
+    gap: 1rem;
+  }
+  &__link {
+    text-decoration: none;
+    padding: .5rem 2rem;
+    color: #fff;
+    background-color: #272727;
+    border-radius: 2rem;
+  }
+}

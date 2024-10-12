@@ -15,6 +15,15 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
+
+  // Claves primarias compuestas
+    modelBuilder.Entity<RolePermission>()
+      .HasKey(rp => new { rp.IdRole, rp.IdPermission });
+    
+    modelBuilder.Entity<RoleUser>()
+      .HasKey(rp => new { rp.IdRole, rp.IdUser });
+
+  // Claves primarias
     modelBuilder.Entity<User>()
         .HasKey(u => u.IdUser);
 
@@ -28,15 +37,40 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
         .HasKey(u => u.IdPermission);
 
     modelBuilder.Entity<RolePermission>()
-        .ToTable("Role_Permission")
-        .HasNoKey();
+        .ToTable("Role_Permission");
 
     modelBuilder.Entity<RoleUser>()
-        .ToTable("Role_User")
-        .HasNoKey();
+        .ToTable("Role_User");
 
     modelBuilder.Entity<LoginAttempt>()
     .HasKey(u => u.IdAttempt);
+
+    // RELATIONS
+    modelBuilder.Entity<User>()
+      .HasMany(u => u.Sessions)
+      .WithOne(e => e.User)
+      .HasForeignKey(e => e.IdUser);
+
+    modelBuilder.Entity<User>()
+      .HasMany(u => u.RoleUsers)
+      .WithOne(e => e.User)
+      .HasForeignKey(e => e.IdUser);
+
+
+    modelBuilder.Entity<Role>()
+        .HasMany(r => r.RoleUsers)
+        .WithOne(ru => ru.Role)
+        .HasForeignKey(ru => ru.IdRole);
+
+    modelBuilder.Entity<Role>()
+        .HasMany(r => r.RolePermissions)
+        .WithOne(rp => rp.Role)
+        .HasForeignKey(rp => rp.IdRole);
+      
+    modelBuilder.Entity<Permission>()
+        .HasMany(p => p.RolePermissions)
+        .WithOne(rp => rp.Permission)
+        .HasForeignKey(rp => rp.IdPermission);
 }
 }
 

@@ -17,3 +17,13 @@ export interface IUserDTO {
   role:           string;
   lastSession:    Date | string;
 }
+
+export interface IUpdateUserDTO {
+  username:       string;
+  firstName:      string;
+  middleName:     string;
+  firstLastname:  string;
+  secondLastname: string;
+  idCard:         string;
+  birthDate:      Date | string;
+}

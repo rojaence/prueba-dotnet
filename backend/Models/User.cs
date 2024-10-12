@@ -16,6 +16,9 @@ public class User {
   public string? SecondLastname { get; set; }
   public string? IdCard { get; set; }
   public DateTime BirthDate { get; set; }
+
+  public ICollection<RoleUser> RoleUsers { get; set; }
+  public ICollection<Session> Sessions { get; set; }
 }
 
 public class UserDTO 
@@ -80,4 +83,32 @@ public class LogoutUserDTO
 {
   [Required(ErrorMessage = "El nombre de usuario es requerido")]
   public string? Username { get; set; }
+}
+
+public class UpdateUserDTO
+{
+  [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
+  [StringLength(20, MinimumLength = 8, ErrorMessage = "El nombre de usuario debe tener entre 8 y 20 caracteres.")]
+  [RegularExpression(@"^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]+$", ErrorMessage = "El nombre de usuario debe contener al menos una letra mayúscula y un número, y no puede contener signos.")]
+  public string? Username { get; set; }
+
+  [Required(ErrorMessage = "El primer nombre es obligatorio")]
+  public string? FirstName { get; set; }
+
+  [Required(ErrorMessage = "El segundo nombre es obligatorio.")]
+  public string? MiddleName { get; set; }
+
+  [Required(ErrorMessage = "El primer apellido es obligatorio.")]
+  public string? FirstLastname { get; set; }
+
+  [Required(ErrorMessage = "El segundo apellido es obligatorio.")]
+  public string? SecondLastname { get; set; }
+
+  [Required(ErrorMessage = "La identificacion es obligatoria.")]
+  [StringLength(10, MinimumLength = 10, ErrorMessage = "La identificacion debe tener exactamente 10 dígitos.")]
+  [RegularExpression(@"^\d+$", ErrorMessage = "La identifiacion debe contener solo números.")]
+  [UserIdCardValidator(ErrorMessage = "La identificacion no debe tener el mismo numero 4 veces seguidas")]
+  public string? IdCard { get; set; }
+  [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
+  public DateTime BirthDate { get; set; }
 }

@@ -46,8 +46,6 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (success) => {
         if (success) {
-          alert('inicio exitoso')
-          console.log
           this.router.navigate(['']);
         }
       },
