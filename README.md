@@ -48,3 +48,8 @@ Avances:
 Avances
 * Añadido: gestión de JWT con uso de cookies
 * Añadido: actualización de perfil de usario
+
+## CUARTO AVANCE
+Acances
+* Añadido: actualización de constraseña de usuario
+* Añadido: dashboard para admin, tabla de usuarios, diálogo para nuevo usuario
