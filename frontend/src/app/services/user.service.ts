@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { IUpdatePasswordDTO, IUpdateUserDTO, IUserDTO } from '../models/user';
+import { IUpdatePasswordDTO, IUpdateUserDTO, IUserDTO, IUserItemDTO } from '../models/user';
 import { environment } from '../../environments/environment.development';
 import { IActionSuccess } from '../interfaces';
 
@@ -13,6 +13,15 @@ export class UserService {
   private apiUrl = `${environment.apiUrl}/users`;
 
   constructor(private http: HttpClient) { }
+
+  getUsers(): Observable<IUserItemDTO[]> {
+    return this.http.get<IUserItemDTO[]>(this.apiUrl, { withCredentials: true }).pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => throwError(() => new Error(error.message)))
+    );
+  }
 
   getUserData(idUser: string): Observable<IUserDTO> {
     return this.http.get<IUserDTO>(this.apiUrl + `/${idUser}`, { withCredentials: true }).pipe(

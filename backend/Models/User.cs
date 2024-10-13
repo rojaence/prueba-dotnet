@@ -21,6 +21,24 @@ public class User {
   public ICollection<Session> Sessions { get; set; }
 }
 
+public class UserListItemDTO 
+{
+  public int IdUser { get; set; }
+  public string? Username { get; set; }
+  public bool SessionActive { get; set; }
+  public string? Email { get; set; }
+  public bool Status { get; set; }
+  public string? FirstName { get; set; }
+  public string? MiddleName { get; set; }
+  public string? FirstLastname { get; set; }
+  public string? SecondLastname { get; set; }
+  public string? IdCard { get; set; } 
+  public int IdSession { get; set; }
+  public DateTime? StartDate { get; set; }
+
+  public string? RoleName { get; set; }
+}
+
 public class UserDTO 
 {
   public int IdUser { get; set; }
@@ -111,4 +129,16 @@ public class UpdateUserDTO
   public string? IdCard { get; set; }
   [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
   public DateTime BirthDate { get; set; }
+}
+
+public class UpdatePasswordDTO 
+{
+[Required(ErrorMessage = "La contraseña es obligatoria.")]
+[StringLength(100, MinimumLength = 8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres.")]
+[RegularExpression(@"^(?=.*[A-Z])(?=.*\W)(?!.*\s).+$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, un signo y no debe contener espacios.")]
+public string? NewPassword { get; set; }
+[Required(ErrorMessage = "La contraseña es obligatoria.")]
+public string? CurrentPassword { get; set; }
+[Required(ErrorMessage = "Repetir contraseña es obligatorio.")]
+public string? RepeatPassword { get; set; }
 }

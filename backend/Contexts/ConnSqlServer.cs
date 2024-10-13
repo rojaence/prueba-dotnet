@@ -13,6 +13,41 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
   public DbSet<RoleUser> RoleUsers { get; set; }
   public DbSet<LoginAttempt> LoginAttempts { get; set; }
 
+   public async Task<List<UserListItemDTO>> GetUsersWithDetailsAsync()
+    {
+        var users = new List<UserListItemDTO>();
+
+        using (var command = Database.GetDbConnection().CreateCommand())
+        {
+            command.CommandText = "SELECT * FROM dbo.GetUsersWithLastSessionAndFirstRole()";
+            command.CommandType = System.Data.CommandType.Text;
+
+            await Database.OpenConnectionAsync();
+
+      using var result = await command.ExecuteReaderAsync();
+      while (await result.ReadAsync())
+      {
+        users.Add(new UserListItemDTO
+        {
+          IdUser = result.GetInt32(result.GetOrdinal("IdUser")),
+          Username = result.GetString(result.GetOrdinal("Username")),
+          SessionActive = result.GetBoolean(result.GetOrdinal("SessionActive")),
+          Email = result.GetString(result.GetOrdinal("Email")),
+          Status = result.GetBoolean(result.GetOrdinal("Status")),
+          FirstName = result.GetString(result.GetOrdinal("FirstName")),
+          MiddleName = result.GetString(result.GetOrdinal("MiddleName")),
+          FirstLastname = result.GetString(result.GetOrdinal("FirstLastname")),
+          SecondLastname = result.GetString(result.GetOrdinal("SecondLastname")),
+          IdCard = result.GetString(result.GetOrdinal("IdCard")),
+          IdSession = result.GetInt32(result.GetOrdinal("IdSession")),
+          StartDate = result.GetDateTime(result.GetOrdinal("StartDate")),
+          RoleName = result.GetString(result.GetOrdinal("RoleName"))
+        });
+      }
+    }
+    return users;
+    }
+
   protected override void OnModelCreating(ModelBuilder modelBuilder)
 {
 

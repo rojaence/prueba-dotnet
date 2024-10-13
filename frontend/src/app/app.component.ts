@@ -15,16 +15,7 @@ export class AppComponent implements OnInit {
   loginPage = signal(false)
 
   ngOnInit(): void {
-   /* this.loginService.isAuthenticated().subscribe({
-    next: (res) => {
-      if (res.isAuthenticated) this.navigateToHome();
-      else this.navigateToLogin();
-    },
-    error: (err) => {
-      console.warn(err)
-    },
-   }) */
-
+    this.loginService.getUserData().subscribe();
 
     this.router.events.subscribe(() => {
       const currentRoute = this.router.url;

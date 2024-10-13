@@ -94,7 +94,7 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
 
         Response.Cookies.Append("authToken", "", cookieOptions);
     }
-    var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(id));
+    var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(id!));
     var lastSession = await _context.Sessions
           .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
           .OrderByDescending(s => s.StartDate)

@@ -24,9 +24,10 @@ public class UsersController : ControllerBase
   }
 
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+  public async Task<IActionResult> GetUsers()
   {
-    return await _context.Users.ToListAsync();
+    var users = await _context.GetUsersWithDetailsAsync();
+    return Ok(users);
   }
 
   [HttpGet("{id}")]
@@ -125,6 +126,22 @@ public class UsersController : ControllerBase
     
     // return permissions;
     return _mapper.Map<List<PermissionDTO>>(permissions);
+  }
+
+  [HttpPost("{id}/password")]
+  public async Task<IActionResult> UpdatePassword(int id, [FromBody] UpdatePasswordDTO userData)
+  {
+    if (!ModelState.IsValid) return BadRequest(ModelState);
+    var user = await _context.Users.FirstAsync(u => u.IdUser == id);
+    if (user == null) return BadRequest("Usuario no existe");
+    if (!BCrypt.Net.BCrypt.EnhancedVerify(userData.CurrentPassword, user.Password)) return BadRequest("Contraseña actual incorrecta");
+    if (userData.NewPassword != userData.RepeatPassword) return BadRequest("Campos de contraseña nueva no coinciden");
+
+    // Generar nuevo hash de password y guardar
+    var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(userData.NewPassword, 13);
+    user.Password = passwordHash;
+    await _context.SaveChangesAsync();
+    return Ok(new { success = true });
   }
 
 

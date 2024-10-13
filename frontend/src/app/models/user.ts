@@ -33,3 +33,19 @@ export interface IUpdatePasswordDTO {
   newPassword: string,
   repeatPassword: string
 }
+
+export interface IUserItemDTO {
+  idUser: number;
+  username: string;
+  sessionActive: boolean;
+  email: string;
+  status: boolean;
+  firstName: string;
+  middleName: string;
+  firstLastname: string;
+  secondLastname: string;
+  idCard: string;
+  idSession: number;
+  startDate: Date | string;
+  roleName: string;
+}

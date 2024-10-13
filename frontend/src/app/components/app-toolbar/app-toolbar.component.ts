@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LoginService } from '../../services/login.service';
 import { Router, RouterModule } from '@angular/router';
+import { IUserDTO } from '../../models/user';
+import { UserRoles } from '../../constants';
 
 @Component({
   selector: 'app-toolbar',
@@ -12,8 +14,11 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './app-toolbar.component.html',
   styleUrl: './app-toolbar.component.scss'
 })
-export class AppToolbarComponent {
+export class AppToolbarComponent implements OnInit {
   title = 'Pruebadotnet';
+  userData: IUserDTO | null = null;
+
+  UserRoles = UserRoles;
 
   constructor(private loginService: LoginService, private router: Router) {}
 
@@ -24,4 +29,15 @@ export class AppToolbarComponent {
       },
     });
   }
+
+  ngOnInit(): void {
+    this.loginService.userData$.subscribe({
+      next: (data) => {
+        this.userData = data;
+      },
+      error: (err) => console.log("Error al obtener el estado de userData", err)
+    })
+  }
+
+
 }

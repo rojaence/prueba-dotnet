@@ -77,6 +77,42 @@ CREATE TABLE LoginAttempts (
   IdUser INT NOT NULL,
   FOREIGN KEY (IdUser) REFERENCES Users(IdUser)
 )
+GO
+
+CREATE FUNCTION GetUsersWithLastSessionAndFirstRole()
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT 
+        u.IdUser,
+        u.Username,
+        u.SessionActive,
+        u.Email,
+        u.Status,
+        u.FirstName,
+        u.MiddleName,
+        u.FirstLastname,
+        u.SecondLastname,
+        u.IdCard,
+        s.IdSession,
+        s.StartDate,
+        r.RoleName
+    FROM Users u 
+    OUTER APPLY (
+        SELECT TOP 1 s.IdSession, s.StartDate 
+        FROM Sessions s 
+        WHERE s.IdUser = u.IdUser AND s.EndDate IS NULL 
+        ORDER BY s.StartDate DESC
+    ) s
+    OUTER APPLY (
+        SELECT TOP 1 r.RoleName 
+        FROM Role_User ru
+        JOIN Roles r ON ru.IdRole = r.IdRole
+        WHERE ru.IdUser = u.IdUser
+    ) r
+)
+GO
 
 
 INSERT INTO Roles (RoleName) VALUES ('Admin'), ('User')

@@ -6,6 +6,11 @@
         <li class="main-nav__item">
           <a [routerLink]="['/']" class="main-nav__link">Inicio</a>
         </li>
+        @if (userData?.role === UserRoles.Admin) {
+          <li class="main-nav__item">
+            <a [routerLink]="['/dashboard']" class="main-nav__link">Dashboard</a>
+          </li>
+        }
         <li class="main-nav__item">
           <a [routerLink]="['/profile']" class="main-nav__link">Perfil</a>
         </li>
