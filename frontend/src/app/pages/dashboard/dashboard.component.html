@@ -1,36 +1,44 @@
-<h2>Usuarios</h2>
+<section class="dashboard">
+  <header class="header">
+    <h2>Usuarios</h2>
+    <button mat-fab extended color="error" (click)="openNewUserDialog()">
+      <mat-icon>add</mat-icon>
+      Agregar nuevo usuario
+    </button>
+  </header>
+  <table mat-table [dataSource]="users">
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Username </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
 
-<table mat-table [dataSource]="users">
-  <ng-container matColumnDef="username">
-    <th mat-header-cell *matHeaderCellDef> Username </th>
-    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-  </ng-container>
+    <ng-container matColumnDef="fullname">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let element"> {{getUserName(element.idUser)}}  </td>
+    </ng-container>
 
-  <ng-container matColumnDef="fullname">
-    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-    <td mat-cell *matCellDef="let element"> {{getUserName(element.idUser)}}  </td>
-  </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let element"> {{ element.status ? 'habilitado' : 'deshabilitado'}}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef> Estado </th>
-    <td mat-cell *matCellDef="let element"> {{ element.status ? 'habilitado' : 'deshabilitado'}}</td>
-  </ng-container>
+    <ng-container matColumnDef="sessionActive">
+      <th mat-header-cell *matHeaderCellDef> Sesión activa </th>
+      <td mat-cell *matCellDef="let element"> {{ element.sessionActive ? 'activa' : 'inactiva'}}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="sessionActive">
-    <th mat-header-cell *matHeaderCellDef> Sesión activa </th>
-    <td mat-cell *matCellDef="let element"> {{ element.sessionActive ? 'activa' : 'inactiva'}}</td>
-  </ng-container>
+    <ng-container matColumnDef="lastSession">
+      <th mat-header-cell *matHeaderCellDef> Inicio última sesión </th>
+      <td mat-cell *matCellDef="let element"> {{ element.startDate | date: 'medium'}}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="lastSession">
-    <th mat-header-cell *matHeaderCellDef> Inicio última sesión </th>
-    <td mat-cell *matCellDef="let element"> {{ element.startDate | date: 'medium'}}</td>
-  </ng-container>
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef> Rol </th>
+      <td mat-cell *matCellDef="let element"> {{ element.roleName }}</td>
+    </ng-container>
 
-  <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef> Rol </th>
-    <td mat-cell *matCellDef="let element"> {{ element.roleName }}</td>
-  </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</section>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
