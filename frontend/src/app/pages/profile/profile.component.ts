@@ -24,6 +24,7 @@ export class ProfileComponent implements OnInit {
   constructor(private loginService: LoginService, private fb: FormBuilder, private userService: UserService) {}
 
   profileForm!: FormGroup;
+  passwordForm!: FormGroup;
 
   locale = inject(LOCALE_ID)
 
@@ -38,9 +39,14 @@ export class ProfileComponent implements OnInit {
       },
     })
     this.createForm();
+    this.createPasswordForm();
+  }
 
-    this.profileForm.valueChanges.subscribe(value => {
-      console.log(value)
+  createPasswordForm() {
+    this.passwordForm = this.fb.group({
+      currentPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\W)(?!.*\s).+$/), Validators.maxLength(100), Validators.minLength(8)]],
+      repeatPassword: ['', [Validators.required]]
     })
   }
 
@@ -91,7 +97,6 @@ export class ProfileComponent implements OnInit {
 
   onSubmit() {
     if (!this.profileForm.valid) return;
-    console.log(this.profileForm.value)
     this.userService.updateUserData(this.userData?.idUser!, this.profileForm.value).subscribe({
       next: (res) => {
         if (res.success) {
@@ -108,7 +113,62 @@ export class ProfileComponent implements OnInit {
     return this.profileForm.controls;
   }
 
-  resetForm(): void {
-    this.profileForm.reset();
+  get fpass() {
+    return this.passwordForm.controls;
+  }
+
+  getPassErrorMessage(controlName: string): string | null {
+    let control = this.fpass[controlName];
+    if (control.hasError('required')) {
+      return 'Este campo es obligatorio.';
+    }
+    if (control.hasError('minlength')) {
+      if (control.errors) {
+        const requiredLength = control.errors['minlength'].requiredLength;
+        return `Debe tener al menos ${requiredLength} caracteres.`;
+      }
+      return 'Campo inválido';
+    }
+    if (control.hasError('email')) {
+      return 'Formato de correo no válido.';
+    }
+    if (control.hasError('maxlength')) {
+      if (control.errors) {
+        const requiredLength = control.errors['maxlength'].requiredLength;
+        return `Debe tener máximo ${requiredLength} caracteres.`;
+      }
+      return 'Campo inválido';
+    }
+    if (control.hasError('pattern')) {
+      if (controlName == 'newPassword') {
+        return 'La contraseña debe contener al menos una letra mayúscula, un signo y no debe contener espacios.';
+      }
+    }
+    return null;
+  }
+
+  onPassSubmit() {
+    if (!this.profileForm.valid) return;
+    if (!this.userData) return;
+    if (this.fpass['newPassword'].value != this.fpass['repeatPassword'].value) {
+      alert('Repetir constraseña no coincide');
+      return;
+    }
+    this.userService.updatePassword(this.userData.idUser, this.passwordForm.value).subscribe({
+      next: (res) => {
+        if (res.success) {
+          alert('Contraseña actualizada correctamente');
+          this.resetForm(this.passwordForm);
+        }
+      },
+      error: (err) => {
+        console.log(err.errors);
+        alert('error al actualizar contraseña');
+      }
+    })
+  }
+
+  resetForm(form: FormGroup): void {
+    form.reset();
   }
 }

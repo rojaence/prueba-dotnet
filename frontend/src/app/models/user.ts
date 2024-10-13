@@ -27,3 +27,9 @@ export interface IUpdateUserDTO {
   idCard:         string;
   birthDate:      Date | string;
 }
+
+export interface IUpdatePasswordDTO {
+  currentPassword: string,
+  newPassword: string,
+  repeatPassword: string
+}

@@ -1,4 +1,4 @@
-<p>Datos del usuario</p>
+<p class="subtitle">Datos del usuario</p>
 <form action="#" class="form" [formGroup]="profileForm" (ngSubmit)="onSubmit()">
   <div class="form-area">
     <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['username'].invalid}">
@@ -77,5 +77,41 @@
   </div>
   <div class="actions">
     <button mat-flat-button>Guardar</button>
+  </div>
+</form>
+
+<p class="subtitle">Actualizar contraseña</p>
+<form action="#" class="pass-form" [formGroup]="passwordForm" (ngSubmit)="onPassSubmit()">
+  <mat-form-field appearance="outline" [ngClass]="{'form-field--error': fpass['currentPassword'].invalid && fpass['currentPassword'].touched}">
+    <mat-label>Contraseña actual</mat-label>
+    <input matInput required formControlName="currentPassword" type="password">
+    @if (fpass['currentPassword'].invalid) {
+      <mat-error>
+        {{ getPassErrorMessage('currentPassword') }}
+      </mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" [ngClass]="{'form-field--error': fpass['newPassword'].invalid && fpass['newPassword'].touched} ">
+    <mat-label>Nueva contraseña</mat-label>
+    <input matInput required formControlName="newPassword" type="password">
+    @if (fpass['newPassword'].invalid) {
+      <mat-error>
+        {{ getPassErrorMessage('newPassword') }}
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" [ngClass]="{'form-field--error': fpass['repeatPassword'].invalid && fpass['repeatPassword'].touched}">
+    <mat-label>Repetir nueva contraseña</mat-label>
+    <input matInput required formControlName="repeatPassword" type="password">
+    @if (fpass['repeatPassword'].invalid) {
+      <mat-error>
+        {{ getPassErrorMessage('repeatPassword') }}
+      </mat-error>
+    }
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-flat-button>Actualizar</button>
   </div>
 </form>

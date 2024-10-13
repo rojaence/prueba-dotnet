@@ -11,3 +11,7 @@ export interface ILoginSuccess {
 export interface IAuthenticated {
   isAuthenticated: boolean
 }
+
+export interface IActionSuccess {
+  success: boolean
+}
