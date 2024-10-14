@@ -39,9 +39,14 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
           FirstLastname = result.GetString(result.GetOrdinal("FirstLastname")),
           SecondLastname = result.GetString(result.GetOrdinal("SecondLastname")),
           IdCard = result.GetString(result.GetOrdinal("IdCard")),
-          IdSession = result.GetInt32(result.GetOrdinal("IdSession")),
+          RoleName = result.GetString(result.GetOrdinal("RoleName")),
+        // Estos campo podrían ser nulos si no hay sesiones para un usuario. (por ejemplo: usuario nuevo)
+          IdSession = result.IsDBNull(result.GetOrdinal("IdSession")) ? 0 : result.GetInt32(result.GetOrdinal("IdSession")),
+          StartDate = result.IsDBNull(result.GetOrdinal("StartDate")) ? null : result.GetDateTime(result.GetOrdinal("StartDate")),
+
+          /* IdSession = result.GetInt32(result.GetOrdinal("IdSession")),
           StartDate = result.GetDateTime(result.GetOrdinal("StartDate")),
-          RoleName = result.GetString(result.GetOrdinal("RoleName"))
+          */
         });
       }
     }

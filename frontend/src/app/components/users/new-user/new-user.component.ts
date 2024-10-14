@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {MatDialog, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,19 +7,25 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { UserService } from '../../../services/user.service';
+import { ICreatedUserDTO, IUserDTO } from '../../../models/user';
+import { IRole } from '../../../models/role';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-new-user',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, CommonModule, MatInputModule, MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule],
+  imports: [MatDialogModule, MatButtonModule, CommonModule, MatInputModule, MatFormFieldModule, MatDatepickerModule, ReactiveFormsModule, MatSelectModule],
   templateUrl: './new-user.component.html',
   styleUrl: './new-user.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideNativeDateAdapter()],
-
 })
 export class NewUserComponent implements OnInit {
-  constructor(private newUserDialogRef: MatDialogRef<NewUserComponent>, private fb: FormBuilder){}
+  @Output() onCreate = new EventEmitter<ICreatedUserDTO>();
+  @Input() roles: IRole[] = [];
+
+  constructor(private newUserDialogRef: MatDialogRef<NewUserComponent>, private fb: FormBuilder, private userService: UserService){}
 
   profileForm!: FormGroup;
 
@@ -38,6 +44,7 @@ export class NewUserComponent implements OnInit {
       firstLastname: ['', [Validators.required]],
       secondLastname: ['', [Validators.required]],
       idCard: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^(?!.*(\d)\1{3})\d{10}$/)]],
+      role: [this.roles[1].idRole, Validators.required],
       birthDate: [new Date(), [Validators.required]],
       password: ['', [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\W)(?!.*\s).+$/), Validators.maxLength(100), Validators.minLength(8)]],
     })
@@ -45,6 +52,7 @@ export class NewUserComponent implements OnInit {
 
   getErrorMessage(controlName: string): string | null {
     let control = this.profileForm.get(controlName);
+    console.log(control)
     if (!control) return '';
     if (control.errors) {
       if (control.hasError('required')) {
@@ -68,6 +76,7 @@ export class NewUserComponent implements OnInit {
       }
       if (control.hasError('pattern')) {
         if (controlName == 'password') {
+          console.log('pas')
           return 'La contraseña debe contener al menos una letra mayúscula, un signo y no debe contener espacios.';
         }
       }
@@ -80,6 +89,19 @@ export class NewUserComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.profileForm.value)
+    this.profileForm.markAllAsTouched();
+    this.profileForm.updateValueAndValidity();
+    if (!this.profileForm.valid) return;
+    this.userService.addNewUser(this.profileForm.value).subscribe({
+      next: (user) => {
+        console.log('usuario creado', user)
+        this.onCreate.emit(user);
+        this.closeDialog();
+      },
+      error: (err) => {
 
+      },
+    })
   }
 }

@@ -6,9 +6,8 @@
   gap: 2rem;
 
   &-area {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-area: repeat(4, 1fr);
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
   }
 }

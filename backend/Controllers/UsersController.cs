@@ -5,7 +5,6 @@ using backend.Models;
 using AutoMapper;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using System.IO.Compression;
 
 namespace backend.Controllers;
 
@@ -39,6 +38,7 @@ public class UsersController : ControllerBase
     return userDTO;
   }
 
+  [HttpOptions]
   [HttpPost]
   public async Task<ActionResult<User>> PostUser([FromBody] CreateUserDTO newUser)
   {
@@ -67,11 +67,15 @@ public class UsersController : ControllerBase
       FirstLastname = newUser.FirstLastname,
       SecondLastname = newUser.SecondLastname,
       IdCard = newUser.IdCard,
-      BirthDate = newUser.BirthDate
+      BirthDate = newUser.BirthDate,
+      Status = true
     };
+
 
     // Agregar usuario si todo marcha bien
     _context.Users.Add(user);
+
+    await _context.SaveChangesAsync();
 
     var idRole = 2;
 
@@ -83,7 +87,9 @@ public class UsersController : ControllerBase
       IdRole = idRole,
       IdUser = user.IdUser
     };
-    
+
+    _context.RoleUsers.Add(userRol);
+    await _context.SaveChangesAsync();
     return CreatedAtAction(nameof(GetUser), new { id = user.IdUser }, user);
   }
 
@@ -152,7 +158,7 @@ public class UsersController : ControllerBase
     var middle = newUser.FirstLastname!.ToLower();
     var end = newUser.SecondLastname![0].ToString().ToLower();
 
-    var email = "{first}{middle}{end}@mail.com";
+    var email = $"{first}{middle}{end}@mail.com";
     int counter = 1;
 
     var emailParts = email.Split('@');

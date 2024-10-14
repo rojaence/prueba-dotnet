@@ -1,8 +1,6 @@
+import { UserRoles } from "../constants";
+
 export interface IUser {
-
-}
-
-export interface IUserDTO {
   idUser:         number;
   username:       string;
   sessionActive:  boolean;
@@ -14,8 +12,27 @@ export interface IUserDTO {
   secondLastname: string;
   idCard:         string;
   birthDate:      Date | string;
+}
+
+export interface IUserDTO extends IUser {
+  birthDate:      Date | string;
   role:           string;
   lastSession:    Date | string;
+}
+
+export interface ICreatedUserDTO extends IUser {
+}
+
+export interface INewUserDTO {
+  username:       string;
+  password:       string;
+  firstName:      string;
+  middleName:     string;
+  firstLastname:  string;
+  secondLastname: string;
+  idCard:         string;
+  birthDate:      Date | string;
+  role:           number;
 }
 
 export interface IUpdateUserDTO {

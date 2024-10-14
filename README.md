@@ -45,11 +45,15 @@ Avances:
 
 ## TERCER AVANCE
 
-Avances
 * Añadido: gestión de JWT con uso de cookies
 * Añadido: actualización de perfil de usario
 
-## CUARTO AVANCE
-Acances
+## CUARTO AVANCE - 13 / oct / 2024
+
 * Añadido: actualización de constraseña de usuario
 * Añadido: dashboard para admin, tabla de usuarios, diálogo para nuevo usuario
+
+## QUINTO AVANCE - 14 / oct / 2024
+
+* Añadido: Agregar nuevo usuario con su respectivo roly validaciones.
+* Corrección: tipos de datos en función getUsersWithDetailsAsync del contexto.

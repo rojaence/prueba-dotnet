@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { NewUserComponent } from '../../components/users/new-user/new-user.component';
+import { RoleService } from '../../services/role.service';
+import { IRole } from '../../models/role';
 
 
 @Component({
@@ -18,17 +20,22 @@ import { NewUserComponent } from '../../components/users/new-user/new-user.compo
 })
 export class DashboardComponent implements OnInit {
 
+  roles: IRole[] = [];
+
   constructor(private userService: UserService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private roleService: RoleService
   ) {}
 
   users: IUserItemDTO[] = [];
-  displayedColumns: string[] = ['username', 'fullname', 'status', 'sessionActive', 'lastSession', 'role'];
+  displayedColumns: string[] = ['username', 'fullname', 'email', 'status', 'sessionActive', 'lastSession', 'role'];
 
   ngOnInit(): void {
-    this.userService.getUsers().subscribe({
-      next: (users) => {
-        this.users = users;
+    this.userService.getUsers().subscribe();
+    this.userService.users$.subscribe(users => this.users = users)
+    this.roleService.getRoles().subscribe({
+      next: (roles) => {
+        this.roles = roles;
       },
       error: (err) => {
         console.log(err);
@@ -46,5 +53,7 @@ export class DashboardComponent implements OnInit {
       maxWidth: '900px',
       disableClose: true,
     });
+    let dialogInstance = dialogRef.componentInstance;
+    dialogInstance.roles = this.roles;
   }
 }
