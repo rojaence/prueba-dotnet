@@ -20,7 +20,7 @@ export class LoginService implements OnInit {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
-    this.getUserData().subscribe();
+    this.isAuthenticated().subscribe();
   }
 
   isAuthenticated(): Observable<IAuthenticated> {

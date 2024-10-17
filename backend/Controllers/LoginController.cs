@@ -107,9 +107,17 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
 
   [HttpGet("check-auth")]
   [Authorize]
-  public IActionResult CheckAuth() 
+  public async Task<IActionResult> CheckAuth() 
   {
-    return Ok(new { authenticated = true });
+        var userId = User.FindFirstValue("id");
+        if (userId == null) return Unauthorized();
+        var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(userId));
+        var lastSession = await _context.Sessions
+          .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
+          .OrderByDescending(s => s.StartDate)
+          .FirstOrDefaultAsync();
+        if (lastSession == null) return Unauthorized();
+        return Ok(new { authenticated = true });
   }
 
   [HttpGet("user-data")]

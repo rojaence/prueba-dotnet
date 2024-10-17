@@ -27,27 +27,28 @@ public class ConnSqlServer(DbContextOptions<ConnSqlServer> options) : DbContext(
       using var result = await command.ExecuteReaderAsync();
       while (await result.ReadAsync())
       {
-        users.Add(new UserListItemDTO
-        {
-          IdUser = result.GetInt32(result.GetOrdinal("IdUser")),
-          Username = result.GetString(result.GetOrdinal("Username")),
-          SessionActive = result.GetBoolean(result.GetOrdinal("SessionActive")),
-          Email = result.GetString(result.GetOrdinal("Email")),
-          Status = result.GetBoolean(result.GetOrdinal("Status")),
-          FirstName = result.GetString(result.GetOrdinal("FirstName")),
-          MiddleName = result.GetString(result.GetOrdinal("MiddleName")),
-          FirstLastname = result.GetString(result.GetOrdinal("FirstLastname")),
-          SecondLastname = result.GetString(result.GetOrdinal("SecondLastname")),
-          IdCard = result.GetString(result.GetOrdinal("IdCard")),
-          RoleName = result.GetString(result.GetOrdinal("RoleName")),
-        // Estos campo podrían ser nulos si no hay sesiones para un usuario. (por ejemplo: usuario nuevo)
-          IdSession = result.IsDBNull(result.GetOrdinal("IdSession")) ? 0 : result.GetInt32(result.GetOrdinal("IdSession")),
-          StartDate = result.IsDBNull(result.GetOrdinal("StartDate")) ? null : result.GetDateTime(result.GetOrdinal("StartDate")),
+                users.Add(new UserListItemDTO
+                {
+                    IdUser = result.GetInt32(result.GetOrdinal("IdUser")),
+                    Username = result.GetString(result.GetOrdinal("Username")),
+                    SessionActive = result.GetBoolean(result.GetOrdinal("SessionActive")),
+                    Email = result.GetString(result.GetOrdinal("Email")),
+                    Status = result.GetBoolean(result.GetOrdinal("Status")),
+                    FirstName = result.GetString(result.GetOrdinal("FirstName")),
+                    MiddleName = result.GetString(result.GetOrdinal("MiddleName")),
+                    FirstLastname = result.GetString(result.GetOrdinal("FirstLastname")),
+                    SecondLastname = result.GetString(result.GetOrdinal("SecondLastname")),
+                    IdCard = result.GetString(result.GetOrdinal("IdCard")),
+                    RoleName = result.GetString(result.GetOrdinal("RoleName")),
+                    BirthDate = result.GetDateTime(result.GetOrdinal("BirthDate")),
+                // Estos campo podrían ser nulos si no hay sesiones para un usuario. (por ejemplo: usuario nuevo)
+                    IdSession = result.IsDBNull(result.GetOrdinal("IdSession")) ? 0 : result.GetInt32(result.GetOrdinal("IdSession")),
+                    StartDate = result.IsDBNull(result.GetOrdinal("StartDate")) ? null : result.GetDateTime(result.GetOrdinal("StartDate")),
 
-          /* IdSession = result.GetInt32(result.GetOrdinal("IdSession")),
-          StartDate = result.GetDateTime(result.GetOrdinal("StartDate")),
-          */
-        });
+                    /* IdSession = result.GetInt32(result.GetOrdinal("IdSession")),
+                    StartDate = result.GetDateTime(result.GetOrdinal("StartDate")),
+                    */
+                });
       }
     }
     return users;

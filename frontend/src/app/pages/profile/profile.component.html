@@ -74,6 +74,10 @@
         </mat-error>
       }
     </mat-form-field>
+    <mat-form-field appearance="outline" [ngClass]="{'form-field--error': f['role'].invalid}">
+      <mat-label>Role</mat-label>
+      <input matInput formControlName="role">
+    </mat-form-field>
   </div>
   <div class="actions">
     <button mat-flat-button>Guardar</button>

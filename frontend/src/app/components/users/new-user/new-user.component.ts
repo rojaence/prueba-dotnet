@@ -52,7 +52,6 @@ export class NewUserComponent implements OnInit {
 
   getErrorMessage(controlName: string): string | null {
     let control = this.profileForm.get(controlName);
-    console.log(control)
     if (!control) return '';
     if (control.errors) {
       if (control.hasError('required')) {
@@ -95,7 +94,6 @@ export class NewUserComponent implements OnInit {
     if (!this.profileForm.valid) return;
     this.userService.addNewUser(this.profileForm.value).subscribe({
       next: (user) => {
-        console.log('usuario creado', user)
         this.onCreate.emit(user);
         this.closeDialog();
       },

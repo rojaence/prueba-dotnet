@@ -43,6 +43,7 @@ export interface IUpdateUserDTO {
   secondLastname: string;
   idCard:         string;
   birthDate:      Date | string;
+  rol:            number
 }
 
 export interface IUpdatePasswordDTO {
@@ -63,6 +64,7 @@ export interface IUserItemDTO {
   secondLastname: string;
   idCard: string;
   idSession: number;
+  birthDate: Date | string;
   startDate: Date | string;
   roleName: string;
 }

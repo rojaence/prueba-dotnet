@@ -85,7 +85,7 @@ builder.Services.AddMvc();
 
 var app = builder.Build();
 
-var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("admin1234", 13);
+var passwordHash = BCrypt.Net.BCrypt.EnhancedHashPassword("user1234", 13);
 Console.WriteLine("hash");
 Console.WriteLine(passwordHash);
 

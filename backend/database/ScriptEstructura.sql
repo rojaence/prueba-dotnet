@@ -95,6 +95,7 @@ RETURN
         u.FirstLastname,
         u.SecondLastname,
         u.IdCard,
+        u.BirthDate,
         s.IdSession,
         s.StartDate,
         r.RoleName
@@ -135,6 +136,10 @@ GO
 INSERT INTO Users (Username, Password, SessionActive, Email, Status, FirstName, MiddleName, FirstLastname, SecondLastname, IdCard, BirthDate)
 VALUES ('rendarac', '$2a$13$zTlIlDv4ksRfiLcX0YJjqe.Wrky7V8Oq4XTottr5MalEeb6p1B0xe', 0, 'rendarac@mail.com', 1, 'Ronny', 'Jacinto', 'Endara', 'Celi', '1234567890', '1999-02-19')
 GO
+INSERT INTO Users (Username, Password, SessionActive, Email, Status, FirstName, MiddleName, FirstLastname, SecondLastname, IdCard, BirthDate)
+VALUES ('Jpiguavel1', '$2a$13$PWmDvmsiyHun0eTFyIUxMuBTHqBb9fdY2OyIpQ/EceQCPm5MoOZfW', 0, 'jpiguavel@mail.com', 1, 'Juan', 'Alberto', 'Piguave', 'Loor', '0943580258', '1999-02-19')
+GO
 
 INSERT INTO Role_User (IdRole, IdUser) VALUES (1, 1)
+INSERT INTO Role_User (IdRole, IdUser) VALUES (2, 2)
 GO

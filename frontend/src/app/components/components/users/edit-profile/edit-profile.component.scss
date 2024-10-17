@@ -1,0 +1,23 @@
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  padding: .5rem;
+  flex-direction: column;
+  gap: 2rem;
+
+  &-area {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .mat-mdc-form-field {
+    min-width: 320px;
+  }
+}

@@ -61,9 +61,11 @@ export class ProfileComponent implements OnInit {
       email: [this.userData?.email],
       idCard: [this.userData?.idCard, [Validators.required, Validators.minLength(10), Validators.maxLength(10), Validators.pattern(/^(?!.*(\d)\1{3})\d{10}$/)]],
       birthDate: [date, [Validators.required]],
+      role: [this.userData?.role],
     })
 
     this.f['email']?.disable();
+    this.f['role']?.disable();
   }
 
   getErrorMessage(controlName: string): string | null {

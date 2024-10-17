@@ -39,6 +39,7 @@ export class UserService {
     return this.http.put<{ success: boolean }>(this.apiUrl + `/${idUser}`, { ...data }, {withCredentials: true})
     .pipe(
       map(response => {
+        this.getUsers().subscribe();
         return response;
       }),
       catchError((error: HttpErrorResponse) => throwError(() => {

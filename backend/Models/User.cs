@@ -34,8 +34,8 @@ public class UserListItemDTO
   public string? SecondLastname { get; set; }
   public string? IdCard { get; set; } 
   public int IdSession { get; set; }
+  public DateTime? BirthDate { get; set; }
   public DateTime? StartDate { get; set; }
-
   public string? RoleName { get; set; }
 }
 
