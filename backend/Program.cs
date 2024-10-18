@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AutoMapper;
 using backend.Mappers;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -97,7 +96,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(pruebaDotnetCors);
-// app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 

@@ -142,3 +142,9 @@ public string? CurrentPassword { get; set; }
 [Required(ErrorMessage = "Repetir contraseña es obligatorio.")]
 public string? RepeatPassword { get; set; }
 }
+
+public class UserStatusDTO
+{
+    public int IdUser { get; set; }
+    public bool Status { get; set; }
+}

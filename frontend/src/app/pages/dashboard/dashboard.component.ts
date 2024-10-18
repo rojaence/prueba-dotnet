@@ -13,6 +13,7 @@ import { EditProfileComponent } from '../../components/components/users/edit-pro
 import { NewUserComponent } from '../../components/users/new-user/new-user.component';
 import { UserRoles } from '../../constants';
 import { LoginService } from '../../services/login.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -81,5 +82,26 @@ export class DashboardComponent implements OnInit {
       return true;
     };
     return false;
+  }
+
+  getStatusPermission(user: IUserItemDTO): boolean {
+    let currentUser = this.loginService.currentUser!;
+    return currentUser.idUser === user.idUser;
+  }
+
+  toggleUserStatus(user: IUserItemDTO) {
+    this.loginService.toggleUserStatus(user.idUser, !user.status)
+    .pipe(
+      finalize(() => this.userService.getUsers().subscribe())
+    )
+    .subscribe({
+      next: (res) => {
+        alert('estado de usuario actualizado')
+      }
+    });
+  }
+
+  getStatusLabel(status: boolean) {
+    return status ? "Deshabilitar usuario" :  "Habilitar usuario" ;
   }
 }

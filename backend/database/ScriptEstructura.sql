@@ -75,6 +75,8 @@ GO
 CREATE TABLE LoginAttempts (
   IdAttempt INT PRIMARY KEY IDENTITY,
   IdUser INT NOT NULL,
+  Resolved BIT NOT NULL DEFAULT 0,
+  DateAttempt DATETIME NOT NULL,
   FOREIGN KEY (IdUser) REFERENCES Users(IdUser)
 )
 GO

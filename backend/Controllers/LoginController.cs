@@ -12,19 +12,53 @@ namespace backend.Controllers;
 
 [Route("api/session")]
 [ApiController]
-public class LoginController(ConnSqlServer context, IConfiguration configuration) : ControllerBase
+public class LoginController(ConnSqlServer context, IConfiguration configuration, IWebHostEnvironment env) : ControllerBase
 {
   private readonly ConnSqlServer _context = context;
   private readonly IConfiguration _configuration = configuration;
+    private readonly IWebHostEnvironment _env = env;
 
   [HttpPost("login")]
   public async Task<IActionResult> Login([FromBody] LoginUserDTO loginUser) 
   {
     var userExist = await _context.Users.AnyAsync(u => u.Username == loginUser.Username);
-
     if (!userExist) return BadRequest("Usuario no existe");
     var user = await _context.Users.FirstAsync(u => u.Username == loginUser.Username);
-    var userRoleId = await _context.RoleUsers
+
+    if (!user.Status) return BadRequest("El usuario se encuentra deshabilitado, comuniquese con un administrador");
+
+    // Verificar intentos de inicio de sesión fallidos
+    var logginAttempts = await GetLoginAttemps(user);
+  /*  if (logginAttempts >= 3)
+        {
+            return BadRequest("Intentos de inicio de sesión superados, comuniquese con un administrador");
+        }*/
+
+        // Verificar credenciales
+        if (!BCrypt.Net.BCrypt.EnhancedVerify(loginUser.Password, user.Password))
+        {
+            var loginAttempt = new LoginAttempt
+            {
+                IdUser = user.IdUser,
+            };
+            var attempts = await GetLoginAttemps(user);
+            if (attempts >= 3)
+            {
+                user.SessionActive = false;
+                user.Status = false;
+                var lastSession = await GetLastSession(user.IdUser);
+                if (lastSession != null) lastSession.EndDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+                return BadRequest("Intentos de inicio de sesión superados, comuniquese con un administrador");
+            }
+            _context.LoginAttempts.Add(loginAttempt);
+            await _context.SaveChangesAsync();
+            return BadRequest("Credenciales incorrectas");
+        };
+
+        await RevokeAttempts(user.IdUser);
+
+        var userRoleId = await _context.RoleUsers
               .Where(ru => ru.IdUser == user.IdUser)
               .Select(ru => ru.IdRole)
               .FirstOrDefaultAsync();
@@ -34,13 +68,11 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
               .FirstOrDefaultAsync();
     
     if (user.SessionActive) {
-      var lastSession = await _context.Sessions
-          .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
-          .OrderByDescending(s => s.StartDate)
-          .FirstOrDefaultAsync();
-      if (lastSession != null) lastSession.EndDate = DateTime.Now;
-      // return Ok(new { message = true });
+            var lastSession = await GetLastSession(user.IdUser);
+            if (lastSession != null) lastSession.EndDate = DateTime.Now;
     }
+
+
     var session = new Session 
     {
       StartDate = DateTime.Now,
@@ -49,17 +81,35 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
 
     user.SessionActive = true;
 
+    var token = GenerateJwtToken(user.Username!, role!, session.StartDate, user.IdUser);
+    SetTokenCookie(token);
+
     _context.Entry(user).State = EntityState.Modified;
     _context.Sessions.Add(session);
     await _context.SaveChangesAsync();    
     
-    if (!BCrypt.Net.BCrypt.EnhancedVerify(loginUser.Password, user.Password)) return BadRequest("Credenciales incorrectas");
-    var token = GenerateJwtToken(user.Username!, role!, session.StartDate, user.IdUser);
-    SetTokenCookie(token);
     return Ok(new { success = true });
   }
 
-  [HttpPost("logout")]
+    private async Task<int> GetLoginAttemps(User user)
+    {
+        var loginAttempts = await _context.LoginAttempts
+            .Where(la => la.IdUser == user.IdUser && !la.Resolved)
+            .OrderByDescending(la => la.DateAttempt)
+            .ToListAsync();
+        return loginAttempts.Count;
+    }
+
+    private async Task<Session?> GetLastSession(int idUser)
+    {
+        var lastSession = await _context.Sessions
+          .Where(s => s.IdUser == idUser && s.EndDate == null)
+          .OrderByDescending(s => s.StartDate)
+          .FirstOrDefaultAsync();
+        return lastSession;
+    }
+
+    [HttpPost("logout")]
   public async Task<IActionResult> Logout()
   {
     var token = Request.Cookies["authToken"];
@@ -69,7 +119,7 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
         return Unauthorized(new { message = "No hay autorizacion" });
     }
 
-    var claimsPrincipal = ValidateJwtToken(token);
+    var claimsPrincipal = await ValidateJwtToken(token);
 
     if (claimsPrincipal == null)
     {
@@ -109,14 +159,29 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
   [Authorize]
   public async Task<IActionResult> CheckAuth() 
   {
+        var token = Request.Cookies["authToken"];
+
+        if (string.IsNullOrEmpty(token))
+        {
+            return Unauthorized(new { autenthicated = false });
+        }
+
+        var claimsPrincipal = await ValidateJwtToken(token);
+
+        if (claimsPrincipal == null)
+        {
+            // Responder con un mensaje de error si el token es inválido
+            return Unauthorized(new { autenthicated = false });
+        }
+
         var userId = User.FindFirstValue("id");
-        if (userId == null) return Unauthorized();
+        if (userId == null) return Unauthorized(new { message = "Id no encontrado" });
         var user = await _context.Users.FirstAsync(u => u.IdUser == int.Parse(userId));
         var lastSession = await _context.Sessions
           .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
           .OrderByDescending(s => s.StartDate)
           .FirstOrDefaultAsync();
-        if (lastSession == null) return Unauthorized();
+        if (lastSession == null) return Unauthorized(new { autenthicated = false });
         return Ok(new { authenticated = true });
   }
 
@@ -142,6 +207,7 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
           .Where(s => s.IdUser == user.IdUser && s.EndDate == null)
           .OrderByDescending(s => s.StartDate)
           .FirstOrDefaultAsync();
+    if (lastSession == null) return Unauthorized("Usuario no tiene sesión activa");
     return Ok(new {
       user.IdUser,
       user.Username,
@@ -158,6 +224,40 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
       LastSession = lastSession!.StartDate
     });
   }
+    [HttpPost("revoke-failed-login-attempts")]
+    [Authorize]
+    public async Task RevokeFailedLoginAttempts([FromBody] int idUser)
+    {
+        await RevokeAttempts(idUser);
+    }
+
+    [HttpPost("toggle-status")]
+    [Authorize]
+    public async Task<IActionResult> ToggleUserStatus([FromBody] UserStatusDTO statusDTO)
+    {
+        var user = await _context.Users.FirstAsync(u => u.IdUser == statusDTO.IdUser);
+        if (user == null) return BadRequest("Usuario no existe");
+        user.Status = statusDTO.Status;
+        var lastSession = await GetLastSession(user.IdUser);
+        if (lastSession != null) lastSession.EndDate = DateTime.Now;
+        await _context.SaveChangesAsync();
+        if (statusDTO.Status == true) return await RevokeAttempts(statusDTO.IdUser);
+        return Ok(new { sucess = true });
+    }
+
+    private async Task<IActionResult> RevokeAttempts(int idUser)
+    {
+        var user = await _context.Users.FirstAsync(u => u.IdUser == idUser);
+        if (user == null) return BadRequest("Usuario no existe");
+        var failedAttempts = await _context.LoginAttempts.Where(l => l.IdUser == idUser && !l.Resolved).ToListAsync();
+        foreach (var attempt in failedAttempts)
+        {
+            attempt.Resolved = true;
+        }
+        user.Status = true;
+        await _context.SaveChangesAsync();
+        return Ok(new { sucess = true });
+    }
 
   private string GenerateJwtToken(string username, string role, DateTime date, int id)
   {
@@ -190,13 +290,13 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
         var cookieOptions = new CookieOptions
         {
             HttpOnly = true,
-            Secure = true,
+            Secure = !_env.IsDevelopment(), // Solo asegurar en producción
             SameSite = SameSiteMode.Strict,
             Expires = DateTime.UtcNow.AddMinutes(30)
         };
         Response.Cookies.Append("authToken", token, cookieOptions);
     }
-   private ClaimsPrincipal ValidateJwtToken(string token)
+   private async Task<ClaimsPrincipal?> ValidateJwtToken(string token)
 {
     var tokenHandler = new JwtSecurityTokenHandler();
     var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
@@ -216,21 +316,29 @@ public class LoginController(ConnSqlServer context, IConfiguration configuration
             ClockSkew = TimeSpan.Zero
         };
 
-        // Intentar validar el token y devolver el principal (los claims)
-        var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+            // Intentar validar el token y devolver el principal (los claims)
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+            var userId = principal.FindFirst("id")?.Value;
 
-        // Verificar si el token es un JWT válido
-        if (validatedToken is JwtSecurityToken jwtToken)
-        {
-            return principal; 
-        }
-        Console.WriteLine("Algo salio mal al validar el token");
-        return null;
+            if (userId != null)
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.IdUser == int.Parse(userId));
+                if (user != null && !user.Status) return null;
+            }
+
+            // Verificar si el token es un JWT válido
+            if (validatedToken is JwtSecurityToken jwtToken)
+            {
+                return principal; 
+            }
+            Console.WriteLine("Algo salio mal al validar el token");
+            return null;
     }
     catch (Exception ex)
     {
         Console.WriteLine($"Token validation failed: {ex.Message}");
         return null;
     }
-}
+   }
+
 }

@@ -3,28 +3,40 @@
   "WorkspaceRootPath": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\contexts\\connsqlserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\contexts\\connsqlserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\models\\loginattempt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\models\\loginattempt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\middlewares\\tokenvalidationmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\middlewares\\tokenvalidationmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\contexts\\connsqlserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\contexts\\connsqlserver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\database\\scriptestructura.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
       "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\database\\scriptestructura.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|solutionrelative:backend\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{541B696A-8963-4730-B4C1-53599FAAA197}|backend\\backend.csproj|c:\\mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\database\\scriptestructura.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
@@ -38,37 +50,75 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 7,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
+              "Title": "TokenValidationMiddleware.cs",
+              "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Middlewares\\TokenValidationMiddleware.cs",
+              "RelativeDocumentMoniker": "backend\\Middlewares\\TokenValidationMiddleware.cs",
+              "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Middlewares\\TokenValidationMiddleware.cs",
+              "RelativeToolTip": "backend\\Middlewares\\TokenValidationMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-18T15:24:20.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "backend",
+              "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\backend.csproj",
+              "RelativeDocumentMoniker": "backend\\backend.csproj",
+              "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\backend.csproj",
+              "RelativeToolTip": "backend\\backend.csproj",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAQwA8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-10-18T15:20:06.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Models\\User.cs",
               "RelativeDocumentMoniker": "backend\\Models\\User.cs",
               "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Models\\User.cs",
               "RelativeToolTip": "backend\\Models\\User.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACEAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAAAJIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T22:49:54.315Z",
+              "WhenOpened": "2024-10-17T12:37:29.52Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginAttempt.cs",
+              "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Models\\LoginAttempt.cs",
+              "RelativeDocumentMoniker": "backend\\Models\\LoginAttempt.cs",
+              "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Models\\LoginAttempt.cs",
+              "RelativeToolTip": "backend\\Models\\LoginAttempt.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-17T12:07:08.942Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "ConnSqlServer.cs",
               "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Contexts\\ConnSqlServer.cs",
               "RelativeDocumentMoniker": "backend\\Contexts\\ConnSqlServer.cs",
               "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Contexts\\ConnSqlServer.cs",
               "RelativeToolTip": "backend\\Contexts\\ConnSqlServer.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAASwC0AAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-16T22:48:16.399Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
@@ -78,39 +128,40 @@
               "RelativeDocumentMoniker": "backend\\Controllers\\UsersController.cs",
               "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Controllers\\UsersController.cs",
               "RelativeToolTip": "backend\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAYwBsAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAIAwwCoAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-16T16:57:49.645Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "backend\\Controllers\\LoginController.cs",
               "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Controllers\\LoginController.cs",
               "RelativeToolTip": "backend\\Controllers\\LoginController.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAwwHYAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAALwAAAAAAAAAAIAwwNEAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-16T16:11:55.686Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Program.cs",
               "RelativeDocumentMoniker": "backend\\Program.cs",
               "ToolTip": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\Program.cs",
               "RelativeToolTip": "backend\\Program.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAjwE4AAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABYAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-16T16:02:49.542Z"
+              "WhenOpened": "2024-10-16T16:02:49.542Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "ScriptEstructura.sql ",
               "DocumentMoniker": "C:\\Mulimedia\\work\\viamatica\\prueba-dotnet-main\\backend\\database\\ScriptEstructura.sql",
               "RelativeDocumentMoniker": "backend\\database\\ScriptEstructura.sql",

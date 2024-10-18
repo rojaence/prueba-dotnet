@@ -27,6 +27,7 @@ export class LoginService implements OnInit {
     return this.http.get<IAuthenticated>(this.apiUrl + '/check-auth', { withCredentials: true })
     .pipe(
       map(response => {
+        console.log('se hizo verificacion')
         return response;
       }),
       catchError((error: HttpErrorResponse) => throwError(() => {
@@ -79,5 +80,18 @@ export class LoginService implements OnInit {
 
   get currentUser(): IUserDTO | null {
     return this.userDataSubject.getValue();
+  }
+
+  toggleUserStatus(idUser: number, status: boolean): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(this.apiUrl + `/toggle-status` , { idUser, status } , { withCredentials: true })
+    .pipe(
+      map(response => {
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => throwError(() => {
+        console.error('error al cambiar status de usuario', error);
+        return new Error(error.error)
+      }))
+    );
   }
 }

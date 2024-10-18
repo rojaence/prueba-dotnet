@@ -9,7 +9,7 @@ export interface ILoginSuccess {
 }
 
 export interface IAuthenticated {
-  isAuthenticated: boolean
+  authenticated: boolean
 }
 
 export interface IActionSuccess {

@@ -53,6 +53,20 @@
         >
           <mat-icon>edit</mat-icon>
         </button>
+
+        <button mat-icon-button aria-label="Edit icon button"
+        [matTooltip]="getStatusLabel(element.status)"
+        matTooltipShowDelay="1000"
+        (click)="toggleUserStatus(element)"
+        [disabled]="getStatusPermission(element)"
+        >
+        @if (element.status) {
+          <mat-icon>person_off</mat-icon>
+        }
+        @else {
+          <mat-icon>person</mat-icon>
+        }
+        </button>
       </td>
     </ng-container>
 

@@ -12,18 +12,24 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    children: []
+    children: [],
+    data: {
+      expectedRoles: [UserRoles.Admin, UserRoles.User]
+    }
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    data: {
+      expectedRoles: [UserRoles.Admin, UserRoles.User]
+    }
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [authGuard],
     data: {
-      expectedRole: UserRoles.Admin
+      expectedRoles: [UserRoles.Admin]
     }
   },
   {
